@@ -12,7 +12,10 @@ const InitApp = (app,express)=>{
     app.use('/messages',MessageRouter);
     app.use('/auth',AuthRouter);
     app.use('/',(req,res)=>{
-        return res.json({Message:"404 not found"});
+        return res.json({Message:"Welcome!"});
+})
+app.use('*',(req,res)=>{
+    return res.json({Message:"404 Not Found"});
 })
     app.use(cors())
     ConnectDB()
