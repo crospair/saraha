@@ -4,13 +4,13 @@ import jwt, { decode } from 'jsonwebtoken';
 import SendEmail from "../../services/SendEmail.js";
 
 export const signup = async (req,res)=>{
-    const {Username,email,password,gender} = req.body;
+    const {username,email,password,gender} = req.body;
     const user = await UserModel.findOne({email});
     if(user){
         return res.status(409).json({Message: "Email Exists"});
     }
 const HashPassword = bcrypt.hashSync(password,parseInt(process.env.SALTROUND));
-const CreateUser = await UserModel.create({username:Username,email,password:HashPassword,gender});
+const CreateUser = await UserModel.create({username:username,email,password:HashPassword,gender});
 const token = jwt.sign({email},process.env.EMAILTOKEN,{expiresIn:'1h'});
 const refreshToken = jwt.sign({email},process.env.EMAILTOKEN,{expiresIn:60*60*24});
 const link = `${req.protocol}://${req.headers.host}/auth/confirmEmail/${token}`;

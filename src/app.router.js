@@ -1,11 +1,13 @@
 import ConnectDB from "../Database/connection.js";
 import MessageRouter from "./modules/Messages/message.router.js";
-import AuthRouter from './modules/Auth/auth.router.js;';
+import AuthRouter from './modules/Auth/auth.router.js';
 import UserRouter from './modules/Users/user.router.js';
-import cors from 'cors'
+import cors from 'cors';
+
+
 
 const InitApp = (app,express)=>{
-    app.use(express.json);
+    app.use(express.json());
     app.use(cors())
     ConnectDB()
     app.use('/users',UserRouter);

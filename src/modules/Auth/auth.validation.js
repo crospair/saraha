@@ -11,7 +11,7 @@ export const SignupSchema = joi.object({
 });
 
 export const SigninSchema = joi.object({
-    email:joi.string.email().required().messages({
+    email:joi.string().email().required().messages({
         'string.empty':"Email is required"
     }),
     password:joi.string().required(),
