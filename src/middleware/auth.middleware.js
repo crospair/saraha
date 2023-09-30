@@ -4,7 +4,7 @@ export const auth = async (req,res,next)=>{
     try{
     const {authorization} = req.headers;
     
-    if(!authorization?.startsWith(process.env.BEARERTOKEN)){
+    if(!authorization?.startsWith(process.env.BEARERKEY)){
         return res.json({Message:"Invalid Token"})
     }
 
