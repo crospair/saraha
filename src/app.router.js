@@ -8,7 +8,7 @@ const InitApp = (app,express)=>{
     app.use(express.json);
     ConnectDB()
     app.use(cors())
-    app.user('/users',UserRouter);
+    app.use('/users',UserRouter);
     app.use('/messages',MessageRouter);
     app.use('/auth',AuthRouter);
     app.use('*',(req,res)=>{
