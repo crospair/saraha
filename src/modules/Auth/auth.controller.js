@@ -17,7 +17,7 @@ const link = `${req.protocol}://${req.headers.host}/auth/confirmEmail/${token}`;
 const refreshlink = `${req.protocol}://${req.headers.host}/auth/NewconfirmEmail/${refreshToken}`;
 const html = `<a href=${link}>Verify Email</a> <br/> or <a href=${refreshlink}> Request a new email to verify here</a>` 
 SendEmail(email,"Please Verify",html);
-    return res.status(201).json({Message:"Please Confirm your Email"});
+    return res.status(201).json({Message:"Success",user:CreateUser._id});
 }
 export const signin = async (req,res)=>{
  const {email,password} = req.body;
