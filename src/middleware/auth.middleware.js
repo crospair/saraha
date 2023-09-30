@@ -24,6 +24,6 @@ export const auth = async (req,res,next)=>{
 }catch(error){
     res.json({Message:"Caught error",error:error.stack})
 }
+next();
 }
 
-next();
