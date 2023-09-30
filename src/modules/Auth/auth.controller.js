@@ -1,6 +1,6 @@
 import UserModel from "../../../Database/Models/user.model.js";
 import bcrypt from 'bcryptjs';
-import jwt, { decode } from 'jsonwebtoken';
+import jwt from 'jsonwebtoken';
 import SendEmail from "../../services/SendEmail.js";
 
 export const signup = async (req,res)=>{
@@ -9,7 +9,7 @@ export const signup = async (req,res)=>{
     if(user){
         return res.status(409).json({Message: "Email Exists"});
     }
-const HashPassword = bcrypt.hashSync(password,parseInt(process.env.SALTROUND));
+const HashPassword =await bcrypt.hashSync(password,parseInt(process.env.SALTROUND));
 const CreateUser = await UserModel.create({username:username,email,password:HashPassword,gender});
 const token = jwt.sign({email},process.env.EMAILTOKEN,{expiresIn:'1h'});
 const refreshToken = jwt.sign({email},process.env.EMAILTOKEN,{expiresIn:60*60*24});
@@ -36,10 +36,10 @@ export const signin = async (req,res)=>{
     return res.status(201).json({Message:'Success',token});
 }
 
-export const confirmEmail = async(req,res,next)=>{
+export const ConfirmEmail = async(req,res,next)=>{
 
     const {token} = req.params;
-    const decoded = jwt.verify(token,process.env.EMAILTOKEN);
+    const decoded = jwt.verify(token,process.env.LOGINSIGNATURE);
     const user = await UserModel.findOneAndUpdate({email:decoded.email,confirmEmail:false},{confirmEmail:true});
     if(!user){
         return res.status(400).json({Message: "Your email is already verified"})
@@ -49,12 +49,15 @@ export const confirmEmail = async(req,res,next)=>{
     }
     }
     
-    export const NewConfirmEmail = async(req,res,next)=>{
-        const {refreshToken} = req.params;
-        const decoded = jwt.verify(token,process.env.EMAILTOKEN);
-        const token = jwt.sign({email:decoded.email},process.env.EMAILTOKEN,{expiresIn:'1h'});
+    export const NewConfirmEmail = async (req, res, next) => {
+        const { refreshToken } = req.params; // Use refreshToken instead of token
+        const decoded = jwt.verify(refreshToken, process.env.LOGINSIGNATURE);
+        const token = jwt.sign({email:decoded.email},process.env.EMAILTOKEN, {
+            expiresIn: '1h'
+        });
         const link = `${req.protocol}://${req.headers.host}/auth/confirmEmail/${token}`;
-        const html = `<a href=${link}>Verify Email</a>` 
-SendEmail(decoded.email,"Please Verify",html);
-return res.status(201).json({Message:"New email has been sent sucessfully"});
-}
+        const html = `<a href=${link}>Verify Email</a>`;
+        SendEmail(decoded.email, "Please Verify", html);
+        return res.status(201).json({ Message: "New email has been sent successfully" });
+    }
+    

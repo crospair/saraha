@@ -7,6 +7,6 @@ const app = express();
 
 app.get('/signup',Validation(SignupSchema),asyncHandler(AuthController.signup));
 app.get('/signin',Validation(SigninSchema),asyncHandler(AuthController.signin));
-app.put('/confirmEmail/:token',asyncHandler(AuthController.confirmEmail))
-app.put('/NewconfirmEmail/:refreshToken',asyncHandler(AuthController.NewConfirmEmail))
+app.put('/ConfirmEmail/:token',asyncHandler(AuthController.ConfirmEmail))
+app.put('/NewConfirmEmail/:refreshToken',asyncHandler(AuthController.NewConfirmEmail))
 export default app;
