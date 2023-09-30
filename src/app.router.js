@@ -8,13 +8,13 @@ import cors from 'cors';
 
 const InitApp = (app,express)=>{
     app.use(express.json());
-    app.use(cors())
-    ConnectDB()
     app.use('/users',UserRouter);
     app.use('/messages',MessageRouter);
     app.use('/auth',AuthRouter);
-    app.use('*',(req,res)=>{
+    app.use('/',(req,res)=>{
         return res.json({Message:"404 not found"});
 })
+    app.use(cors())
+    ConnectDB()
 }
 export default InitApp;

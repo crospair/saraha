@@ -5,8 +5,8 @@ import Validation from "../../middleware/validation.js";
 import { SigninSchema, SignupSchema } from "./auth.validation.js";
 const app = express();
 
-app.get('/signup',Validation(SignupSchema),asyncHandler(AuthController.signup));
-app.get('/signin',Validation(SigninSchema),asyncHandler(AuthController.signin));
-app.put('/ConfirmEmail/:token',asyncHandler(AuthController.ConfirmEmail))
-app.put('/NewConfirmEmail/:refreshToken',asyncHandler(AuthController.NewConfirmEmail))
+app.post('/signup',Validation(SignupSchema),asyncHandler(AuthController.signup));
+app.post('/signin',Validation(SigninSchema),asyncHandler(AuthController.signin));
+app.get('/ConfirmEmail/:token',asyncHandler(AuthController.ConfirmEmail))
+app.get('/NewConfirmEmail/:refreshToken',asyncHandler(AuthController.NewConfirmEmail))
 export default app;

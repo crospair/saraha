@@ -39,19 +39,19 @@ export const signin = async (req,res)=>{
 export const ConfirmEmail = async(req,res,next)=>{
 
     const {token} = req.params;
-    const decoded = jwt.verify(token,process.env.LOGINSIGNATURE);
+    const decoded = jwt.verify(token,process.env.EMAILTOKEN);
     const user = await UserModel.findOneAndUpdate({email:decoded.email,confirmEmail:false},{confirmEmail:true});
-    if(!user){
+    if(user){
         return res.status(400).json({Message: "Your email is already verified"})
     }
    else{
-        return res.json({Message: "Your Email has been Confirmed!"})
+        return res.redirect('https://www.youtube.com/watch?v=dQw4w9WgXcQ');
     }
     }
     
     export const NewConfirmEmail = async (req, res, next) => {
-        const { refreshToken } = req.params; // Use refreshToken instead of token
-        const decoded = jwt.verify(refreshToken, process.env.LOGINSIGNATURE);
+        const { refreshToken } = req.params; 
+        const decoded = jwt.verify(refreshToken, process.env.EMAILTOKEN);
         const token = jwt.sign({email:decoded.email},process.env.EMAILTOKEN, {
             expiresIn: '1h'
         });
