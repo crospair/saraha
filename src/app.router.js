@@ -6,8 +6,8 @@ import cors from 'cors'
 
 const InitApp = (app,express)=>{
     app.use(express.json);
-    ConnectDB()
     app.use(cors())
+    ConnectDB()
     app.use('/users',UserRouter);
     app.use('/messages',MessageRouter);
     app.use('/auth',AuthRouter);
