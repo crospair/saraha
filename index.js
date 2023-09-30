@@ -7,9 +7,6 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 ConnectDB()
 
-app.use("/messages", MessageRouter);
-
-
 app.listen(PORT,()=>{
     console.log(`server is running on port ${PORT}`);
 })
