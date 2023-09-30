@@ -55,7 +55,7 @@ export const ConfirmEmail = async(req,res,next)=>{
         const token = jwt.sign({email:decoded.email},process.env.EMAILTOKEN, {
             expiresIn: '1h'
         });
-        const link = `${req.protocol}://${req.headers.host}/auth/confirmEmail/${token}`;
+        const link = `${req.protocol}://${req.headers.host}/auth/ConfirmEmail/${token}`;
         const html = `<a href=${link}>Verify Email</a>`;
         SendEmail(decoded.email, "Please Verify", html);
         return res.status(201).json({ Message: "New email has been sent successfully" });
