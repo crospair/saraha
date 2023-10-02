@@ -23,6 +23,9 @@ const UserSchema = new Schema({
         type:String,
         default:'Male',
         enum:['Male','Female'],
+    },
+    profilePic:{
+        type:String,
     }
 
 },{
