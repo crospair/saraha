@@ -1,19 +1,22 @@
 import multer from "multer";
 import { nanoid } from "nanoid";
 
-function FileUpload(){
+export const FileValidation = {
+    image:['image/jpeg','image/png','image/webp'],
+    file:['application/pdf']
+}
+
+function FileUpload(CustomValidation = []){
     const storage = multer.diskStorage({
-        destination:(req,res,cb)=>{
+        destination:(req,file,cb)=>{
             cb(null,'uploads');
         },
-        filename:(req,res,cb)=>{
-            cb(null,nanoid()+"-"+file.originalname);
+        filename:(req,file,cb)=>{
+            cb(null,nanoid()+file.originalname);
         }
     });
-
 function FileFilter(req,res,cb){
-    if(file.mimetype == "image/jpeg" || file.mimetype == "image/png" || file.mimetype == "image/jpg"
-    || file.mimetype == "image/webp"){
+    if(CustomValidation.includes(file.mimetype)){
         cb(null,true);
     }else{
         cb("Invalid Format",false);

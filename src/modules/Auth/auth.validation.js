@@ -2,10 +2,9 @@
 import joi from "joi";
 
 export const SignupSchema = joi.object({
-    username:joi.string().required().alphanum().min(3).max(20),
-    email:joi.string().email().required(),
-    gender:joi.string().valid('Male','Female').required(),
-    age:joi.number().integer().min(18).max(64),
+    Username:joi.string().required().alphanum().min(3).max(20),
+    Elementmail:joi.string().email().required(),
+    Gender:joi.string().valid('Male','Female').required(),
     password:joi.string().required().min(8).max(30),
     cPassword:joi.string().valid(joi.ref('password')).required(),
 });

@@ -4,10 +4,12 @@ import jwt from 'jsonwebtoken';
 import SendEmail from "../../services/SendEmail.js";
 
 export const signup = async (req,res)=>{
-    const {username,email,password,gender} = req.body;
-    const user = await UserModel.findOne({email});
+const {username,email,password,gender} = req.body;
+const user = await UserModel.findOne({email});
     if(user){
-        return res.status(409).json({Message: "Email Exists"});
+        //return res.status(409).json({Message: "Email Exists"});
+        return next(new Error("Email Exists"));
+
     }
 const HashPassword =await bcrypt.hashSync(password,parseInt(process.env.SALTROUND));
 const CreateUser = await UserModel.create({username:username,email,password:HashPassword,gender});
@@ -23,14 +25,17 @@ export const signin = async (req,res)=>{
  const {email,password} = req.body;
  const user = await UserModel.findOne({email});
  if(!user){
-   return res.status(404).json({message:"Invalid Email"});
+  // return res.status(404).json({message:"Invalid Email"});
+    return next(new Error("Invalid Email"));
  }
  if(!user.confirmEmail){
-  return res.status(400).json({Message:"Please Confirm your Email first"});
+ // return res.status(400).json({Message:"Please Confirm your Email first"});
+  return next(new Error("Please Confirm your Email"));
  }
     const match = bcrypt.compareSync(password,user.password);
     if(!match){
-        return res.status(404).json({Message:"Invalid Password"});
+        //return res.status(404).json({Message:"Invalid Password"});
+        return next(new Error("Invalid Password"));
     }
     const token = jwt.sign({id:user._id},process.env.LOGINSIGNATURE);
     return res.status(201).json({Message:'Success',token});
@@ -42,7 +47,8 @@ export const ConfirmEmail = async(req,res,next)=>{
     const decoded = jwt.verify(token,process.env.EMAILTOKEN);
     const user = await UserModel.findOneAndUpdate({email:decoded.email,confirmEmail:false},{confirmEmail:true});
     if(user){
-        return res.status(400).json({Message: "Your email is already verified"})
+        //return res.status(400).json({Message: "Your email is already verified"})
+        return next(new Error("This Email is Already verified"));
     }
    else{
         return res.redirect('https://www.youtube.com/watch?v=dQw4w9WgXcQ');

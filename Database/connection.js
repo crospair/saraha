@@ -1,4 +1,4 @@
-import mongoose, {mongo} from "mongoose";
+import mongoose from "mongoose";
 
 const ConnectDB = async (req,res)=>{
     await mongoose.connect(process.env.DB_LOCAL)

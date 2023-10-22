@@ -17,6 +17,4 @@ const transporter = nodemailer.createTransport({
     html, // html body
   });
 }
-
-
 export default SendEmail;
