@@ -6,24 +6,24 @@ export const FileValidation = {
     file:['application/pdf']
 }
 
-function FileUpload(CustomValidation = []){
+function fileUpload(CustomValidation = []){
     const storage = multer.diskStorage({
-        destination:(req,file,cb)=>{
+        destination:(req,res,cb)=>{
             cb(null,'uploads');
         },
         filename:(req,file,cb)=>{
             cb(null,nanoid()+file.originalname);
         }
     });
-function FileFilter(req,res,cb){
+function fileFilter(req,file,cb){
     if(CustomValidation.includes(file.mimetype)){
         cb(null,true);
     }else{
         cb("Invalid Format",false);
     }
 }
-    const upload = multer({FileFilter,storage});
+    const upload = multer({fileFilter,storage});
     return upload;
 }
 
-export default FileUpload;
+export default fileUpload;
