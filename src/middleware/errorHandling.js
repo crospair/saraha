@@ -8,7 +8,7 @@ export const asyncHandler = (fn)=>{
     }
 }
 
-export const GlobalHandler = (err,res,res,next)=>{
+export const GlobalHandler = (err,req,res,next)=>{
     if(err){
         return res.json({Message:err.message});
     }
